@@ -1,0 +1,69 @@
+<!--pages/add-position/form-position.wxml-->
+<view class='add-content'>
+  <form bindsubmit="formSubmit" bindreset="formReset">
+  <view class='content'>
+    <view class='section-title'>
+      <text class='title-left'></text> 记录你的足迹
+    </view>
+    <view class='word-form'>
+      <view class='w-f-line'></view>
+    
+      <view class='form-group'>
+        <label class='w-f-label'>主题</label>
+        <input name="topic" class='w-f-content'></input>
+      </view>
+      <!-- <view class='form-group'>
+        <label class='w-f-label'>时间</label>
+        <input class='w-f-content'></input>
+      </view>
+       -->
+      <view class='w-f-line'></view>
+      <view class='form-group'>
+        <label class='w-f-label'>And</label>
+        <input class='w-f-content'></input>
+      </view>
+      <view class='w-f-line'></view>
+      <view class='form-group'>
+        <label class='w-f-label'>地点</label>
+        <input class='w-f-content'></input>
+      </view>
+      <view class='w-f-line'></view>
+      <view class='form-group classify-label'>
+        <label class='w-f-label'>分类</label>
+        <text class='w-f-classify {{item.className}}' data-name="{{item.name}}" bindtap='checkClassify' wx:key="{{index}}" wx:for="{{classifyArr}}">{{item.name}}</text>
+      </view>
+      <view class='w-f-line'></view>
+      
+    </view>
+
+
+
+    <view class='section-title'>
+      <text class='title-left'></text>添加照片
+      <text wx:if="{{imgList.length}}" class='show-del-btn icon-empty_fill iconfont' bindtap='showDelBtn'></text>
+    </view>
+    <view class='img-form'>
+      <view class='i-f-img' wx:for="{{imgList}}" wx:key="{{index}}">
+        <text wx:if="{{displayDelBtn}}" data-imgid="{{item}}" class='iconfont icon-close delete-img' bindtap='deleteImgHandler'></text>
+        <image mode='aspectFill' src='{{item}}'></image>
+      </view>
+      <view wx:if="{{imgList.length <= 2}}" class='i-f-img img-add-tag' bindtap="uploadImg">
+        <text class='iconfont icon-add'></text>
+      </view>
+    </view>
+
+
+    <view class='section-title'>
+      <text class='title-left'></text>留下点感想</view>
+    <view class='paragraph-form'>
+
+      <textarea class='sentiment-style' value="{{sentiment}}" auto-height placeholder="最长输入512个字符" maxlength="512" />
+    </view>
+
+
+</view>
+    <view class="btn-area">
+      <button formType="submit" class='save-btn'>提交</button>
+    </view>
+  </form>
+</view>

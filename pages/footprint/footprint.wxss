@@ -1,0 +1,68 @@
+/* pages/footprint/footprint.wxss */
+
+.page-section-gap {
+  box-sizing: border-box;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 150rpx;
+  right: 0;
+}
+
+.btn-area {
+  position: absolute;
+  box-sizing: border-box;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  /* height: 120rpx; */
+}
+
+.wrap-cur {
+  position: absolute;
+  height: 80rpx;
+  width: 80rpx;
+  right: 20rpx;
+  bottom: 20rpx;
+  border: 6rpx solid rgb(183, 182, 255);
+  border-radius: 50%;
+  background: lightcyan;
+}
+.btn-area-wrap{
+  display: flex;
+  box-sizing: border-box;
+  justify-content: space-between;
+  height: 150rpx;
+  align-items: center;
+  border-top:2rpx solid #666; 
+}
+.cur-position{
+  display: flex;
+  font-size: 28rpx;
+  align-items: baseline;
+}
+.cur-label{
+  flex-shrink: 0;
+  padding-left: 8rpx;
+}
+.cur-content {
+  font-size: 28rpx;
+  color: #333;
+}
+.cur-content-degree{
+  font-size: 24rpx;
+}
+.cur-content-lng, .cur-content-lat {
+  color: rgb(72, 69, 212);
+}
+.add-item{
+  width: 80rpx;
+  height: 80rpx;
+  /* background: orange; */
+  margin-right: 8rpx;
+}
+.add-item .iconfont {
+  font-size: 72rpx; 
+  color: rgb(72, 69, 212);
+}

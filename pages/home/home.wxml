@@ -1,0 +1,19 @@
+<view class="container">
+  <view class="page-body">
+  <!-- 轮播图--start -->
+    <view class="page-section swiper">
+      <swiper
+        indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}"
+        interval="{{interval}}" duration="{{duration}}" previous-margin="{{previousMargin}}px" next-margin="{{nextMargin}}px">
+        <block wx:for="{{imgArr}}" wx:key="*this">
+          <swiper-item>
+             <view class="swiper-item">
+               <image class="swiper-img" mode='aspectFill' src='../../assets/swiper/{{item}}'></image>
+             </view> 
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+  <!-- 轮播图--end -->
+  </view>
+</view>
