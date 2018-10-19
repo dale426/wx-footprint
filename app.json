@@ -1,11 +1,12 @@
 {
   "pages": [
-    "pages/add-position/form-position",
+    "pages/login/index",
     "pages/footprint/footprint",
     "pages/home/home",
     "pages/index/index",
     "pages/logs/logs",
-    "pages/welcome/welcome"
+    "pages/welcome/welcome",
+    "pages/add-position/form-position"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -18,16 +19,16 @@
     "selectedColor": "#317ef3",
     "list": [
       {
-        "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath": "assets/gray/1.png",
-        "selectedIconPath": "assets/blue/QRCode.png"
-      },
-      {
         "pagePath": "pages/footprint/footprint",
         "text": "足迹",
         "iconPath": "assets/gray/2.png",
         "selectedIconPath": "assets/blue/favorites.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/gray/1.png",
+        "selectedIconPath": "assets/blue/QRCode.png"
       },
       {
         "pagePath": "pages/home/home",
@@ -41,5 +42,6 @@
     "request": 10000,
     "downloadFile": 10000
   },
-  "debug": true
+  "debug": true,
+  "cloud": true
 }

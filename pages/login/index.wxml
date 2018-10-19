@@ -1,0 +1,19 @@
+<view class='content'>
+  <view class='website-title'>
+    <image class='website-img' src='../../assets/image/foot-img.jpg'></image>
+    <view>暴露行踪科技</view>
+    <view class='line'></view>
+    <view class='login-content'>
+      <view class='login-c-line-a'>即将登陆暴露行踪科技足迹平台</view>
+      <view>记录足迹</view>
+      <view>记录生活</view>
+      <view>记录每次约会</view>
+      <view>记录去过的每个景点</view>
+      <view>记录发生的每件事</view>
+      <view>让科技记住你</view>
+    </view>
+    <button class='login-btn' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="getUserInfo">确认登录</button>
+
+    <button bindtap='getinfo'>222</button>
+  </view>
+</view>
