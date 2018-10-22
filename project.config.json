@@ -1,4 +1,6 @@
 {
+  "miniprogramRoot": "miniprogram/",
+  "cloudfunctionRoot": "cloudfunctions/",
 	"description": "项目配置文件。",
 	"packOptions": {
 		"ignore": []
@@ -29,7 +31,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 0,
 			"list": []
 		}
 	}

@@ -12,8 +12,6 @@
       <view>记录发生的每件事</view>
       <view>让科技记住你</view>
     </view>
-    <button class='login-btn' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="getUserInfo">确认登录</button>
-
-    <button bindtap='getinfo'>222</button>
+    <button class='login-btn' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="queryUserInfo">确认登录</button>
   </view>
 </view>
