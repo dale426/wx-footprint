@@ -114,6 +114,29 @@ Page({
   },
   formSubmit: function (e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
+    let params = {
+      address: '新洲际餐厅',
+      city: '杭州市',
+      classify: ['1002', '1003'],
+      companion: '老表',
+      geo: [30, 120],
+      imageList: ['img'],
+      province: '浙江',
+      recommend: '杭州市文艺路啦啦啦团队啊',
+      sentiment: '这是愉快的一天啊',
+      topic: '和那谁的约会'
+    }
+    wx.cloud.callFunction({
+      name: 'addFoot',
+      data: params, // [纬度， 经度]
+      complete: res => {
+        console.log('[云函数]', res)
+      },
+      fail: err => {
+        // wx.hideLoading()
+        console.error('[云函数] [login] 调用失败', err)
+      }
+    })
   },
   formReset: function () {
     console.log('form发生了reset事件')
@@ -126,9 +149,9 @@ Page({
       success(res) {
         console.log(res)
         const tempFilePaths = res.tempFilePaths
-        let {imgList} = _this.data
+        let { imgList } = _this.data
         imgList = imgList.concat(tempFilePaths)
-        _this.setData({ imgList})
+        _this.setData({ imgList })
         wx.uploadFile({
           url: 'https://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
           filePath: tempFilePaths[0],
@@ -146,8 +169,8 @@ Page({
     })
   },
   // 显示删除按钮
-  showDelBtn: function() {
-    let { displayDelBtn, imgList} = this.data
+  showDelBtn: function () {
+    let { displayDelBtn, imgList } = this.data
     if (!imgList.length) {
       return
     }
@@ -156,10 +179,10 @@ Page({
       displayDelBtn
     })
   },
-  deleteImgHandler: function(event) {
-    let {imgid} = event.currentTarget.dataset
-    let {imgList} = this.data
-    imgList = [...imgList.slice(0, imgList.indexOf(imgid)), ...imgList.slice(imgList.indexOf(imgid)+1, imgList.length)]
+  deleteImgHandler: function (event) {
+    let { imgid } = event.currentTarget.dataset
+    let { imgList } = this.data
+    imgList = [...imgList.slice(0, imgList.indexOf(imgid)), ...imgList.slice(imgList.indexOf(imgid) + 1, imgList.length)]
     this.setData({
       imgList,
       displayDelBtn: !!imgList.length

@@ -51,7 +51,7 @@ App({
   },
   globalData: {
     userInfo: null,
-    latitude: 0,
-    longitude: 0
+    geo: [30, 120],
+    openid: null
   }
 })

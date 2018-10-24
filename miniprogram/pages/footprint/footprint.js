@@ -24,19 +24,19 @@ Page({
     }],
     curBtnType: false
   },
-  onLoad: function () {
+  onLoad: function() {
     // 实例化API核心类
     qqmapsdk = new QQMapWX({
       key: 'PBJBZ-KV4W2-DDRUK-CGYDF-KD7EO-3UFRU'
     });
   },
 
-  onReady: function (e) {
+  onReady: function(e) {
     this.mapCtx = wx.createMapContext('myMap');
     this.getUserLocatiton();
   },
   // 移动到当前位置
-  moveToLocation: function () {
+  moveToLocation: function() {
 
 
     this.mapCtx.moveToLocation()
@@ -51,6 +51,7 @@ Page({
     wx.getLocation({
       type: 'gcj02', //返回可以用于wx.openLocation的经纬度
       success: res => {
+        app.globalData.geo = [res.latitude, res.longitude]
         this.setData({
           latitude: res.latitude,
           longitude: res.longitude,
@@ -67,19 +68,21 @@ Page({
         longitude: lng
       },
       success: (res) => {
-        // console.log('success', res);
-        this.setData({ curPositionName: res.result.formatted_addresses.recommend })
+        console.log('success', res);
+        this.setData({
+          curPositionName: res.result.formatted_addresses.recommend
+        })
       },
-      fail: function (res) {
+      fail: function(res) {
         // console.log('fail', res);
       },
-      complete: function (res) {
+      complete: function(res) {
         // console.log('complete', res);
       }
     });
   },
   // 移动视图
-  translateMarker: function () {
+  translateMarker: function() {
     this.mapCtx.translateMarker({
       markerId: 1,
       autoRotate: true,
@@ -94,7 +97,7 @@ Page({
     })
   },
   // 包含所有视图点
-  includePoints: function () {
+  includePoints: function() {
     let _this = this;
     // console.log(_this.data.latitude, '经度', _this.data.longitude)
     this.mapCtx.includePoints({
@@ -107,8 +110,14 @@ Page({
   },
   // 跳转添加位置
   addPosition: function() {
-    wx.navigateTo({
-      url: '/pages/add-position/form-position',
-    })
+    if (app.globalData.openid) {
+      wx.navigateTo({
+        url: '/pages/add-position/form-position',
+      })
+    } else {
+      wx.navigateTo({
+        url: '/pages/login/index?url=add-position/form-position',
+      })
+    }
   }
 })

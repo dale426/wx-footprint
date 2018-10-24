@@ -4,50 +4,86 @@ const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
     userInfo: {},
     logged: false,
+    redirUrl: ''
   },
 
-  onLoad: function() {
+  onLoad: function (opts) {
     if (!wx.cloud) {
       wx.navigateBack()
       return
     }
-
+    if (opts.url) {
+      this.setData({
+        redirUrl: opts.url
+      })
+    }
     // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              app.globalData.userInfo = res.userInfo
+    /*     wx.getSetting({
+          success: res => {
+            if (res.authSetting['scope.userInfo']) {
+              // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+              wx.getUserInfo({
+                success: res => {
+                  app.globalData.userInfo = res.userInfo
+                }
+              })
             }
-          })
-        }
-      }
-    })
+          }
+        }) */
   },
-  // 获取用户信息
-  queryUserInfo: function(res) {
-    console.log(res)
-    if (res.detail.errMsg === 'getUserInfo:ok') {
-      app.globalData.userInfo = res.detail.userInfo
-      this.onGetOpenid()
+  onShow: function () {
+    if (this.data.logged) {
+      wx.switchTab({
+        url: '../../pages/footprint/footprint',
+      })
     }
   },
-  onGetOpenid: function () {
+  // 获取用户信息
+  queryUserInfo: function (res) {
+    console.log(res)
+    wx.showLoading({
+      title: '登陆中...',
+    })
+    if (res.detail.errMsg === 'getUserInfo:ok') {
+      app.globalData.userInfo = res.detail.userInfo
+      this.onGetOpenid(res.detail.userInfo)
+    }
+  },
+  onGetOpenid: function (userInfo) {
     // 调用云函数
+    console.log({ ...userInfo, geo: app.globalData.geo })
     wx.cloud.callFunction({
       name: 'login',
-      data: {},
-      success: res => {
-        console.log('[云函数] [login] user openid: ', res.result.openid)
-        app.globalData.openid = res.result.openid
-        wx.navigateBack()
+      data: { ...userInfo, geo: app.globalData.geo }, // [纬度， 经度]
+      complete: res => {
+        console.log('[云函数]', res)
+        wx.hideLoading()
+        if (res.errMsg === 'cloud.callFunction:ok') {
+          app.globalData.openid = res.result.openid
+          this.setData({
+            logged: true
+          })
+          let { redirUrl } = this.data
+          if (this.data.redirUrl) {
+            let url = '../../pages/' + redirUrl
+            wx.navigateTo({
+              url
+            })
+          } else {
+            wx.switchTab({
+              url: '../../pages/footprint/footprint',
+            })
+          }
+        }
       },
       fail: err => {
+        wx.hideLoading()
+        wx.showToast({
+          title: '登陆失败，请重试!',
+          icon: 'none'
+        })
         console.error('[云函数] [login] 调用失败', err)
       }
     })
