@@ -30,7 +30,7 @@
       <view class='w-f-line'></view>
       <view class='form-group classify-label'>
         <label class='w-f-label'>分类</label>
-        <text class='w-f-classify {{item.className}}' data-name="{{item.name}}" bindtap='checkClassify' wx:key="{{index}}" wx:for="{{classifyArr}}">{{item.name}}</text>
+        <text class='w-f-classify {{item.className}}' data-id="{{item.id}}" bindtap='checkClassify' wx:key="{{index}}" wx:for="{{classifyArr}}">{{item.name}}</text>
       </view>
       <view class='w-f-line'></view>
       
@@ -57,7 +57,7 @@
       <text class='title-left'></text>留下点感想</view>
     <view class='paragraph-form'>
 
-      <textarea class='sentiment-style' value="{{sentiment}}" auto-height placeholder="最长输入512个字符" maxlength="512" />
+      <textarea class='sentiment-style' name="sentiment" value="{{sentiment}}" auto-height placeholder="最长输入512个字符" maxlength="512" />
     </view>
 
 </view>

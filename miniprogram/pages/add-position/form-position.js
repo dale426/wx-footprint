@@ -9,27 +9,36 @@ Page({
   data: {
     classifyArr: [{
         name: '饭',
+        id: '1001'
       },
       {
-        name: '约'
+        name: '约',
+        id: '1002'
       },
       {
-        name: '影'
+        name: '影',
+        id: '1003'
       },
       {
-        name: '旅游'
+        name: '旅游',
+        id: '1004'
       },
       {
-        name: '心情'
+        name: '心情',
+        id: '1005'
       },
       {
-        name: '其他'
+        name: '其他',
+        id: '1006'
       }
     ],
     classifySelected: [], // 选择分类
     imgList: [], //  图片列表
     sentiment: '', //感想富文本
     displayDelBtn: false, // 删除按钮
+    ad_info: {},
+    latitude: 30,
+    longitude: 120
   },
 
   /**
@@ -50,7 +59,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    app.getUserLocatiton().then(res => {
+      this.setData({
+        ad_info: res,
+        latitude: res.location.lat,
+        longitude: res.location.lng,
+      })
+    })
   },
 
   /**
@@ -89,19 +104,19 @@ Page({
   },
   checkClassify: function(event) {
     let {
-      name
+      id
     } = event.currentTarget.dataset;
     let {
       classifyArr,
       classifySelected
     } = this.data
     classifyArr.forEach(item => {
-      if (item.name === name) {
-        if (item.className === 'active') {
+      if (item.id === id) {
+        if (item.className === 'active') { // 取消选中
           item.className = '';
-          var index = classifySelected.indexOf(name)
+          var index = classifySelected.indexOf(id)
           classifySelected = [...classifySelected.slice(0, index), ...classifySelected.slice(index + 1, classifySelected.length)]
-        } else {
+        } else { // 加入选中
           if (classifySelected.length >= 2) {
             wx.showToast({
               title: '分类最多同时选择两个',
@@ -109,7 +124,7 @@ Page({
             })
           } else {
             item.className = 'active';
-            classifySelected.push(item.name)
+            classifySelected.push(item.id)
           }
         }
       }
@@ -155,26 +170,58 @@ Page({
   },
   // 提交文本内容
   formSubmit: function(e) {
-    console.log(e, app);
-    return ;
+    wx.showLoading({
+      title: '重踩中...',
+    })
     this.uploadArr().then(res => {
-      let params = {
-        address: '新洲际餐厅123',
-        city: '杭州市',
-        classify: ['1002', '1003'],
-        companion: '老表123',
-        geo: [30, 120],
-        imageList: res || [],
-        province: '浙江',
-        recommend: '杭州市文艺路啦啦啦团队啊',
-        sentiment: '这是愉快的一天啊',
-        topic: '和那谁的约会'
+      console.log(this.data)
+      let {
+        recommend,
+        city,
+        province,
+        lat,
+        lng
+      } = {
+        ...this.data.ad_info,
+        ...this.data.ad_info.location
       }
+      let {
+        address,
+        companion,
+        topic,
+        sentiment,
+      } = e.detail.value
+
+      let params = {
+        address,
+        city,
+        classify: this.data.classifySelected,
+        companion,
+        geo: [lat, lng],
+        imageList: res || [],
+        province,
+        recommend,
+        sentiment,
+        topic
+      }
+      console.log("params", params)
       wx.cloud.callFunction({
         name: 'addFoot',
         data: params, // [纬度， 经度]
         complete: res => {
           console.log('[云函数]', res)
+          wx.hideLoading()
+          wx.showToast({
+            title: '恭喜，您已经留下足迹~~',
+            icon: 'none',
+            complete: function() {
+              setTimeout( () => {
+                wx.switchTab({
+                  url: '../../pages/footprint/footprint',
+                })
+              }, 1000)
+            }
+          })
         },
         fail: err => {
           // wx.hideLoading()
@@ -187,6 +234,7 @@ Page({
   formReset: function() {
     console.log('form发生了reset事件')
   },
+  // 选择图片
   selectImage: function() {
     let _this = this
     wx.chooseImage({

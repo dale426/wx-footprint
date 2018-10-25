@@ -1,10 +1,8 @@
 var app = getApp();
-var QQMapWX = require('../../utils/qqmap-wx-jssdk.js');
-var qqmapsdk;
 Page({
   data: {
-    latitude: 23.099994,
-    longitude: 113.324520,
+    latitude: 30.259609,
+    longitude: 120.130257,
     scale: 18,
     ad_info: {}, // 当前位置名称
     markers: [{
@@ -24,14 +22,10 @@ Page({
     }],
     curBtnType: false
   },
-  onLoad: function() {
-    // 实例化API核心类
-    qqmapsdk = new QQMapWX({
-      key: 'PBJBZ-KV4W2-DDRUK-CGYDF-KD7EO-3UFRU'
-    });
+  onLoad: function () {
   },
 
-  onReady: function(e) {
+  onReady: function (e) {
     // 获取登录信息
     wx.getStorage({
       key: 'openid',
@@ -40,54 +34,30 @@ Page({
       }
     })
     this.mapCtx = wx.createMapContext('myMap');
-    this.getUserLocatiton();
+    this.queryLocationInfo()
+  },
+  // 查询位置信息
+  queryLocationInfo: function () {
+    app.getUserLocatiton().then(res => {
+      console.log(res)
+      this.setData({
+        ad_info: res,
+        latitude: res.location.lat,
+        longitude: res.location.lng,
+      })
+    })
   },
   // 移动到当前位置
-  moveToLocation: function() {
+  moveToLocation: function () {
     this.mapCtx.moveToLocation()
     this.setData({
       scale: this.data.scale === 18 ? 14 : 18
     });
-    this.getUserLocatiton(); // 查询位置名字
+    this.queryLocationInfo()
   },
 
-  // 获取并设置当前位置 经纬度
-  getUserLocatiton() {
-    wx.getLocation({
-      type: 'gcj02', //返回可以用于wx.openLocation的经纬度
-      success: res => {
-        app.globalData.geo = [res.latitude, res.longitude]
-        this.setData({
-          latitude: res.latitude,
-          longitude: res.longitude,
-        });
-        this.queryPositionName(res.latitude, res.longitude);
-      }
-    })
-  },
-  // 根据经纬度-获取位置信息
-  queryPositionName(lat, lng) {
-    qqmapsdk.reverseGeocoder({
-      location: {
-        latitude: lat,
-        longitude: lng
-      },
-      success: (res) => {
-        console.log('success', lat, lng,res);
-        this.setData({
-          ad_info: { ...res.result.ad_info, recommend: res.result.formatted_addresses.recommend}
-        })
-      },
-      fail: function(res) {
-        // console.log('fail', res);
-      },
-      complete: function(res) {
-        // console.log('complete', res);
-      }
-    });
-  },
   // 移动视图
-  translateMarker: function() {
+  translateMarker: function () {
     this.mapCtx.translateMarker({
       markerId: 1,
       autoRotate: true,
@@ -102,7 +72,7 @@ Page({
     })
   },
   // 包含所有视图点
-  includePoints: function() {
+  includePoints: function () {
     let _this = this;
     // console.log(_this.data.latitude, '经度', _this.data.longitude)
     this.mapCtx.includePoints({
@@ -114,7 +84,7 @@ Page({
     })
   },
   // 跳转添加位置
-  addPosition: function() {
+  addPosition: function () {
     if (app.globalData.openid) {
       let ad_info = this.data.ad_info
       wx.navigateTo({
