@@ -20,12 +20,12 @@
       <view class='w-f-line'></view>
       <view class='form-group'>
         <label class='w-f-label'>And</label>
-        <input class='w-f-content'></input>
+        <input name="companion" class='w-f-content'></input>
       </view>
       <view class='w-f-line'></view>
       <view class='form-group'>
         <label class='w-f-label'>地点</label>
-        <input class='w-f-content'></input>
+        <input name="address" class='w-f-content'></input>
       </view>
       <view class='w-f-line'></view>
       <view class='form-group classify-label'>
@@ -47,7 +47,7 @@
         <text wx:if="{{displayDelBtn}}" data-imgid="{{item}}" class='iconfont icon-close delete-img' bindtap='deleteImgHandler'></text>
         <image mode='aspectFill' src='{{item}}'></image>
       </view>
-      <view wx:if="{{imgList.length <= 2}}" class='i-f-img img-add-tag' bindtap="uploadImg">
+      <view wx:if="{{imgList.length <= 2}}" class='i-f-img img-add-tag' bindtap="selectImage">
         <text class='iconfont icon-add'></text>
       </view>
     </view>
@@ -59,7 +59,6 @@
 
       <textarea class='sentiment-style' value="{{sentiment}}" auto-height placeholder="最长输入512个字符" maxlength="512" />
     </view>
-
 
 </view>
     <view class="btn-area">

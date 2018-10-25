@@ -7,7 +7,6 @@ cloud.init()
 exports.main = async(event, context) => {
   const db = cloud.database()
   const openid = event.userInfo.openid
-  return event
   let {
     address,
     city,
@@ -31,9 +30,14 @@ exports.main = async(event, context) => {
       province,
       recommend,
       sentiment,
-      topic
+      topic,
+      footTime: new Date()
     }
   });
-  return addResult
-  if (addResult === '1') {}
+  if (addResult.errMsg === 'collection.add:ok') {
+    return addResult
+  } else {
+    return {
+      errMsg:"collection.add:faild"};
+  }
 }

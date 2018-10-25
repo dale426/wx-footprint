@@ -12,7 +12,7 @@
       <view class='cur-position'>
         <view class='cur-label'>当前位置：</view>
         <view class='cur-content'>
-          <text class='cur-content-name'>{{ curPositionName }}</text>
+          <text class='cur-content-name'>{{ ad_info.recommend }}</text>
           <view class='cur-content-degree'>
             东经:
             <text class='cur-content-lng'>{{longitude}}度</text> ， 北纬:

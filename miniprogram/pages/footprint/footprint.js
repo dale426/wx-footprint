@@ -6,7 +6,7 @@ Page({
     latitude: 23.099994,
     longitude: 113.324520,
     scale: 18,
-    curPositionName: '', // 当前位置名称
+    ad_info: {}, // 当前位置名称
     markers: [{
       id: 1,
       latitude: 23.099994,
@@ -32,13 +32,18 @@ Page({
   },
 
   onReady: function(e) {
+    // 获取登录信息
+    wx.getStorage({
+      key: 'openid',
+      success(res) {
+        app.globalData.openid = res.data || null
+      }
+    })
     this.mapCtx = wx.createMapContext('myMap');
     this.getUserLocatiton();
   },
   // 移动到当前位置
   moveToLocation: function() {
-
-
     this.mapCtx.moveToLocation()
     this.setData({
       scale: this.data.scale === 18 ? 14 : 18
@@ -46,7 +51,7 @@ Page({
     this.getUserLocatiton(); // 查询位置名字
   },
 
-  // 获取并设置当前位置
+  // 获取并设置当前位置 经纬度
   getUserLocatiton() {
     wx.getLocation({
       type: 'gcj02', //返回可以用于wx.openLocation的经纬度
@@ -60,7 +65,7 @@ Page({
       }
     })
   },
-  // 获取位置信息
+  // 根据经纬度-获取位置信息
   queryPositionName(lat, lng) {
     qqmapsdk.reverseGeocoder({
       location: {
@@ -68,9 +73,9 @@ Page({
         longitude: lng
       },
       success: (res) => {
-        console.log('success', res);
+        console.log('success', lat, lng,res);
         this.setData({
-          curPositionName: res.result.formatted_addresses.recommend
+          ad_info: { ...res.result.ad_info, recommend: res.result.formatted_addresses.recommend}
         })
       },
       fail: function(res) {
@@ -111,12 +116,13 @@ Page({
   // 跳转添加位置
   addPosition: function() {
     if (app.globalData.openid) {
+      let ad_info = this.data.ad_info
       wx.navigateTo({
         url: '/pages/add-position/form-position',
       })
     } else {
       wx.navigateTo({
-        url: '/pages/login/index?url=add-position/form-position',
+        url: '/pages/login/index',
       })
     }
   }

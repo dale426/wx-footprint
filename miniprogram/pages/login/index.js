@@ -5,19 +5,13 @@ const app = getApp()
 Page({
   data: {
     userInfo: {},
-    logged: false,
-    redirUrl: ''
+    logged: false
   },
 
-  onLoad: function (opts) {
+  onLoad: function() {
     if (!wx.cloud) {
       wx.navigateBack()
       return
-    }
-    if (opts.url) {
-      this.setData({
-        redirUrl: opts.url
-      })
     }
     // 获取用户信息
     /*     wx.getSetting({
@@ -33,15 +27,11 @@ Page({
           }
         }) */
   },
-  onShow: function () {
-    if (this.data.logged) {
-      wx.switchTab({
-        url: '../../pages/footprint/footprint',
-      })
-    }
+  onShow: function() {
+
   },
   // 获取用户信息
-  queryUserInfo: function (res) {
+  queryUserInfo: function(res) {
     console.log(res)
     wx.showLoading({
       title: '登陆中...',
@@ -51,12 +41,16 @@ Page({
       this.onGetOpenid(res.detail.userInfo)
     }
   },
-  onGetOpenid: function (userInfo) {
+  onGetOpenid: function(userInfo) {
     // 调用云函数
-    console.log({ ...userInfo, geo: app.globalData.geo })
+    console.log({ ...userInfo,
+      geo: app.globalData.geo
+    })
     wx.cloud.callFunction({
       name: 'login',
-      data: { ...userInfo, geo: app.globalData.geo }, // [纬度， 经度]
+      data: { ...userInfo,
+        geo: app.globalData.geo
+      }, // [纬度， 经度]
       complete: res => {
         console.log('[云函数]', res)
         wx.hideLoading()
@@ -65,17 +59,18 @@ Page({
           this.setData({
             logged: true
           })
-          let { redirUrl } = this.data
-          if (this.data.redirUrl) {
-            let url = '../../pages/' + redirUrl
-            wx.navigateTo({
-              url
+          try {
+            wx.setStorage({
+              key: 'openid',
+              data: res.result.openid,
             })
-          } else {
-            wx.switchTab({
-              url: '../../pages/footprint/footprint',
-            })
+          } catch (e) {
+            console.log(e)
           }
+          // 登录成功跳转到首页
+          wx.switchTab({
+            url: '../../pages/footprint/footprint',
+          })
         }
       },
       fail: err => {
