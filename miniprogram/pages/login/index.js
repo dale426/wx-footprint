@@ -69,7 +69,7 @@ Page({
           }
           // 登录成功跳转到首页
           wx.switchTab({
-            url: '../../pages/footprint/footprint',
+            url: '../../pages/foot-map/index',
           })
         }
       },

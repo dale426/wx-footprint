@@ -230,7 +230,7 @@ Page({
             complete: function() {
               setTimeout( () => {
                 wx.switchTab({
-                  url: '../../pages/footprint/footprint',
+                  url: '../../pages/foot-map/index',
                 })
               }, 1000)
             }

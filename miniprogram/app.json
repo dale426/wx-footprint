@@ -1,12 +1,12 @@
 {
   "pages": [
-    "pages/footprint/footprint",
+    "pages/foot-map/index",
     "pages/login/index",
     "pages/home/home",
     "pages/index/index",
     "pages/logs/logs",
     "pages/welcome/welcome",
-    "pages/add-position/form-position"
+    "pages/add-position/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -19,7 +19,7 @@
     "selectedColor": "#317ef3",
     "list": [
       {
-        "pagePath": "pages/footprint/footprint",
+        "pagePath": "pages/foot-map/index",
         "text": "我的位置",
         "iconPath": "assets/gray/2.png",
         "selectedIconPath": "assets/blue/favorites.png"

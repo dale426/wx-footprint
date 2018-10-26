@@ -1,4 +1,3 @@
-<!--pages/footprint/footprint.wxml-->
 <view>
   <span type="text">我的足迹</span>
   <view class="page-section page-section-gap">

@@ -88,7 +88,7 @@ Page({
     if (app.globalData.openid) {
       let ad_info = this.data.ad_info
       wx.navigateTo({
-        url: '/pages/add-position/form-position',
+        url: '/pages/add-position/index',
       })
     } else {
       wx.navigateTo({
