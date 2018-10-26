@@ -170,8 +170,26 @@ Page({
   },
   // 提交文本内容
   formSubmit: function(e) {
+    let {
+      address,
+      companion,
+      topic,
+      sentiment,
+    } = e.detail.value
+    if (!topic) {
+      return wx.showToast({
+        title: '不能没个主题吧',
+        icon: 'none'
+      })
+    }
+    if(this.data.classifySelected.length < 1) {
+      return wx.showToast({
+        title: '选择一个分类吧',
+        icon: 'none'
+      })
+    }
     wx.showLoading({
-      title: '重踩中...',
+      title: '足迹记录中...',
     })
     this.uploadArr().then(res => {
       console.log(this.data)
@@ -185,12 +203,7 @@ Page({
         ...this.data.ad_info,
         ...this.data.ad_info.location
       }
-      let {
-        address,
-        companion,
-        topic,
-        sentiment,
-      } = e.detail.value
+      
 
       let params = {
         address,

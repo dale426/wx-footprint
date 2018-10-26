@@ -64,5 +64,5 @@
 }
 .add-item .iconfont {
   font-size: 72rpx; 
-  color: rgb(72, 69, 212);
+  color: #0b4bfac9;
 }

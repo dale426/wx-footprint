@@ -20,7 +20,7 @@
     "list": [
       {
         "pagePath": "pages/footprint/footprint",
-        "text": "足迹",
+        "text": "我的位置",
         "iconPath": "assets/gray/2.png",
         "selectedIconPath": "assets/blue/favorites.png"
       },

@@ -56,7 +56,6 @@
     <view class='section-title'>
       <text class='title-left'></text>留下点感想</view>
     <view class='paragraph-form'>
-
       <textarea class='sentiment-style' name="sentiment" value="{{sentiment}}" auto-height placeholder="最长输入512个字符" maxlength="512" />
     </view>
 
